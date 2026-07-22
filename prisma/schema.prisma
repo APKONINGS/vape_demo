@@ -1,0 +1,170 @@
+// 4F Store - Self Hosted Auto Parts & Accessories Ecommerce
+//
+// Datasource: postgresql — switched from the original SQLite for the Vercel stakeholder
+// demo, since Vercel's serverless functions run on a read-only filesystem and can't
+// durably write a local SQLite file. Any free Postgres (e.g. Neon, Supabase) works via
+// DATABASE_URL. NOTE: the array-like fields (Product.images/sizes/colors, Order.items)
+// and enum-like fields (User.role, Order.status) are still plain `String` columns holding
+// JSON text / literal-union values rather than native Postgres array/enum types — that's
+// a leftover from the original SQLite design (which has no native support for either) and
+// still works fine on Postgres as-is. Worth revisiting for the eventual official/self-hosted
+// build, but not required for this demo.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  emailVerified    DateTime?
+  name             String?
+  image            String?
+  // NULL when the user only ever signed up via Google ("Google-only" user).
+  passwordHash     String?
+  role             String    @default("CUSTOMER") // "ADMIN" | "CUSTOMER" — see lib/constants.ts
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  stripeCustomerId String?
+
+  accounts Account[]
+  sessions Session[]
+  orders   Order[]
+  wishlist WishlistItem[]
+  reviews  Review[]
+
+  @@index([resetToken])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String   @default("")
+  price       Int // stored in cents to avoid floating point issues
+  salePrice   Int? // cents; null when not on sale
+  images      String // JSON-encoded string[]
+  sizes       String // JSON-encoded string[]
+  colors      String // JSON-encoded string[]
+  stock       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Nullable so this migration can't fail or null out pre-existing products — the seed
+  // script backfills real categories onto them. New products should always get one via
+  // the admin form's own validation, but the DB doesn't hard-require it.
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  collections  Collection[]   @relation("CollectionToProduct")
+  wishlistedBy WishlistItem[]
+  reviews      Review[]
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  vehicleType String  @default("ANY") // "SEDAN" | "SUV" | "TRUCK" | "ANY" — see lib/constants.ts
+  parentId    String?
+
+  parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: SetNull)
+  children Category[] @relation("CategoryToCategory")
+  products Product[]
+}
+
+model Collection {
+  id        String  @id @default(cuid())
+  slug      String  @unique // e.g. new-arrivals, sale, winter
+  title     String
+  bannerUrl String?
+
+  products Product[] @relation("CollectionToProduct")
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int // 1-5
+  comment   String   @default("")
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  userId          String?
+  email           String
+  total           Int // cents
+  items           String // JSON-encoded CartItemSnapshot[] at time of purchase
+  status          String   @default("PENDING") // see lib/constants.ts OrderStatus
+  stripeSessionId String?  @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+}
