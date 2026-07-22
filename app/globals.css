@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 240 6% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 240 6% 10%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* --- Accessibility panel: real, functional style toggles reflected as
+   data-attributes on <html> by components/accessibility-provider.tsx --- */
+
+:root {
+  --a11y-font-scale: 1;
+}
+html[data-font-scale="large"] {
+  --a11y-font-scale: 1.15;
+}
+html[data-font-scale="xlarge"] {
+  --a11y-font-scale: 1.3;
+}
+html[data-font-scale="xxlarge"] {
+  --a11y-font-scale: 1.5;
+}
+html {
+  font-size: calc(16px * var(--a11y-font-scale));
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 100;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+html[data-contrast="high"] {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 92%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 0 0% 10%;
+  --accent: 50 100% 50%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 100% 35%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  --ring: 50 100% 40%;
+}
+html[data-contrast="high"] * {
+  border-color: black !important;
+}
+html[data-contrast="high"] :focus-visible {
+  outline: 3px solid hsl(50 100% 40%) !important;
+  outline-offset: 2px;
+}
+/* Under high contrast, --input and --primary both resolve to black, which makes an
+   unchecked switch's track look identical to a checked one. Force an unmistakable
+   on/off distinction instead of relying on track color alone. */
+html[data-contrast="high"] [role="switch"][data-state="unchecked"] {
+  background-color: white !important;
+  border-color: black !important;
+}
+html[data-contrast="high"] [role="switch"][data-state="checked"] {
+  background-color: black !important;
+}
+html[data-contrast="high"] [role="switch"] span {
+  background-color: black !important;
+}
+html[data-contrast="high"] [role="switch"][data-state="checked"] span {
+  background-color: white !important;
+}
+
+html[data-underline-links="true"] a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
+/* Dyslexia-friendly: wider letter/word/line spacing plus a plain, unambiguous sans-serif —
+   the same spacing-first approach most accessibility widgets use since bundling a
+   licensed dyslexia typeface isn't something a self-hosted template can ship. */
+html[data-dyslexia-friendly="true"] body {
+  font-family: Verdana, Tahoma, Arial, sans-serif;
+  letter-spacing: 0.04em;
+  word-spacing: 0.12em;
+  line-height: 1.7;
+}
+
+html[data-text-align-left="true"] p,
+html[data-text-align-left="true"] li,
+html[data-text-align-left="true"] blockquote,
+html[data-text-align-left="true"] h1,
+html[data-text-align-left="true"] h2,
+html[data-text-align-left="true"] h3 {
+  text-align: left !important;
+}
+
+html[data-highlight-headings="true"] h1,
+html[data-highlight-headings="true"] h2,
+html[data-highlight-headings="true"] h3,
+html[data-highlight-headings="true"] h4 {
+  background-color: hsl(50 100% 85%);
+  color: black !important;
+  outline: 2px solid hsl(50 100% 40%);
+  outline-offset: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Dims imagery (not display:none) so layout/grids never collapse — meant for users
+   who find product photography visually overwhelming, not for hiding content from
+   assistive tech (alt text remains in the accessibility tree either way). */
+html[data-hide-images="true"] img {
+  opacity: 0.08;
+  filter: grayscale(1);
+}
+
+html[data-highlight-hover="true"] a:hover,
+html[data-highlight-hover="true"] button:hover,
+html[data-highlight-hover="true"] [role="button"]:hover {
+  outline: 3px solid hsl(50 100% 40%) !important;
+  outline-offset: 2px;
+}
+
+html[data-large-cursor="true"],
+html[data-large-cursor="true"] button,
+html[data-large-cursor="true"] a {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24'%3E%3Cpath fill='black' stroke='white' stroke-width='1' d='M3 2l7.07 17 2.51-7.39L20 9.07z'/%3E%3C/svg%3E")
+      4 4,
+    auto !important;
+}
+
+/* Color vision deficiency adjustment. True per-type daltonization needs multi-step LMS
+   color-space math (simulate the deficiency, isolate the lost error signal, redistribute
+   it into still-visible channels) — not something a single CSS filter can honestly claim
+   to do. This instead boosts saturation/contrast and shifts hue away from the red<->green
+   axis (protanopia/deuteranopia) or blue<->yellow axis (tritanopia), which measurably
+   increases perceptual distance between commonly-confused colors. */
+html[data-color-blind="protanopia"],
+html[data-color-blind="deuteranopia"] {
+  filter: saturate(1.6) contrast(1.1) hue-rotate(-8deg);
+}
+html[data-color-blind="tritanopia"] {
+  filter: saturate(1.6) contrast(1.1) hue-rotate(8deg);
+}
+
+.a11y-reading-guide {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 2.5rem;
+  background: hsla(50, 100%, 50%, 0.25);
+  border-top: 2px solid hsl(50 100% 40%);
+  border-bottom: 2px solid hsl(50 100% 40%);
+  pointer-events: none;
+  z-index: 60;
+}
+
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Google Website Translator (components/language-switcher.tsx) injects its own banner,
+   balloon tooltip, and loading-spinner overlay — all rendered as iframes classed
+   "skiptranslate", plus a couple of non-iframe helper elements. We drive the widget
+   entirely through our own dropdown, so none of Google's own UI should ever be visible. */
+iframe.skiptranslate,
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos,
+.goog-te-gadget-icon,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+body {
+  top: 0 !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
