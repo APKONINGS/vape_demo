@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { CartDrawer } from "@/components/cart-drawer";
 import { CartHydration } from "@/components/cart-hydration";
 import { WishlistProvider } from "@/components/wishlist-context";
+import { AgeGate } from "@/components/age-gate";
 
 export default async function StoreLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -29,6 +30,7 @@ export default async function StoreLayout({ children }: { children: ReactNode })
         <SiteFooter />
         <CartDrawer />
         <CartHydration />
+        <AgeGate />
       </div>
     </WishlistProvider>
   );

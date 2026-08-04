@@ -19,7 +19,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     <div className="container py-8">
       <form action="/search" method="GET" className="relative mb-8 max-w-md">
         <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input name="q" defaultValue={query} placeholder="Search jackets..." className="pl-8" autoFocus />
+        <Input name="q" defaultValue={query} placeholder="Search the catalog..." className="pl-8" autoFocus />
       </form>
 
       {query ? (
@@ -30,7 +30,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <ProductGrid products={products} />
         </>
       ) : (
-        <p className="text-muted-foreground">Search for a jacket by name or description.</p>
+        <p className="text-muted-foreground">Search for a product by name or description.</p>
       )}
     </div>
   );

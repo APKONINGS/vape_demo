@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 
 import { prisma } from "@/lib/prisma";
 import { getActiveProducts } from "@/lib/products";
-import { NAV_VEHICLE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
+import { NAV_VAPE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-const STATIC_PAGES = ["/shipping", "/returns", "/fitment-guide", "/contact"] as const;
+const STATIC_PAGES = ["/shipping", "/returns", "/contact"] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, collections] = await Promise.all([
@@ -21,16 +21,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const vehicleTypeUrls: MetadataRoute.Sitemap = NAV_VEHICLE_TYPES.map((vehicleType) => ({
-    url: `${siteUrl}/${vehicleType.slug}`,
+  const vapeTypeUrls: MetadataRoute.Sitemap = NAV_VAPE_TYPES.map((vapeType) => ({
+    url: `${siteUrl}/${vapeType.slug}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.8,
   }));
 
-  const vehicleCategoryUrls: MetadataRoute.Sitemap = NAV_VEHICLE_TYPES.flatMap((vehicleType) =>
+  const vapeCategoryUrls: MetadataRoute.Sitemap = NAV_VAPE_TYPES.flatMap((vapeType) =>
     PRODUCT_TYPES.map((type) => ({
-      url: `${siteUrl}/${vehicleType.slug}/${type.type}`,
+      url: `${siteUrl}/${vapeType.slug}/${type.type}`,
       lastModified: new Date(),
       changeFrequency: "daily" as const,
       priority: 0.7,
@@ -64,8 +64,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 0.9,
     },
-    ...vehicleTypeUrls,
-    ...vehicleCategoryUrls,
+    ...vapeTypeUrls,
+    ...vapeCategoryUrls,
     ...collectionUrls,
     ...productUrls,
     ...staticUrls,

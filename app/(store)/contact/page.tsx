@@ -8,7 +8,7 @@ export default function ContactPage() {
     <div className="container max-w-2xl py-12">
       <h1 className="mb-6 text-3xl font-bold tracking-tight">Contact Us</h1>
       <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-        Questions about an order, fitment, or a product? Reach out and we&apos;ll get back to you as soon as we can.
+        Questions about an order, a product, or age verification? Reach out and we&apos;ll get back to you as soon as we can.
       </p>
 
       <div className="space-y-6">

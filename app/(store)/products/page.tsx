@@ -6,8 +6,8 @@ import { ProductGrid } from "@/components/product-grid";
 import { ProductFilters } from "@/components/product-filters";
 
 export const metadata: Metadata = {
-  title: "Winter Jackets",
-  description: "Browse our full collection of winter jackets and outerwear.",
+  title: "All Products",
+  description: "Browse our full collection of disposables, pod systems, mods, tanks, and e-liquids.",
 };
 
 interface ProductsPageProps {
@@ -23,7 +23,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <div className="container py-8">
-      <h1 className="mb-8 text-3xl font-bold tracking-tight">Winter Jackets</h1>
+      <h1 className="mb-8 text-3xl font-bold tracking-tight">All Products</h1>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[240px_1fr]">
         <aside className="hidden md:block">
           <ProductFilters sizes={allSizes} colors={allColors} />

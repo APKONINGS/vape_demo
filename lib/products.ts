@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { asStringArray } from "@/lib/json";
-import type { VehicleType } from "@/lib/constants";
+import type { VapeType } from "@/lib/constants";
 
 export interface ProductCategoryDTO {
   id: string;
   slug: string;
   name: string;
-  vehicleType: VehicleType;
+  vapeType: VapeType;
 }
 
 export interface ProductDTO {
@@ -36,7 +36,7 @@ interface RawProduct {
   colors: string;
   stock: number;
   active: boolean;
-  category: { id: string; slug: string; name: string; vehicleType: string } | null;
+  category: { id: string; slug: string; name: string; vapeType: string } | null;
 }
 
 export function toProductDTO(product: RawProduct): ProductDTO {
@@ -57,7 +57,7 @@ export function toProductDTO(product: RawProduct): ProductDTO {
           id: product.category.id,
           slug: product.category.slug,
           name: product.category.name,
-          vehicleType: product.category.vehicleType as VehicleType,
+          vapeType: product.category.vapeType as VapeType,
         }
       : null,
   };
@@ -80,19 +80,19 @@ export async function getProductBySlug(slug: string): Promise<ProductDTO | null>
   return toProductDTO(product);
 }
 
-export async function getProductsByVehicleType(vehicleType: VehicleType): Promise<ProductDTO[]> {
+export async function getProductsByVapeType(vapeType: VapeType): Promise<ProductDTO[]> {
   const products = await prisma.product.findMany({
-    where: { active: true, category: { vehicleType } },
+    where: { active: true, category: { vapeType } },
     orderBy: { createdAt: "desc" },
     include: withCategory,
   });
   return products.map(toProductDTO);
 }
 
-/** `categorySlug` is the DB slug, e.g. "sedans-exterior" — see PRODUCT_TYPES in lib/constants.ts. */
-export async function getProductsByCategorySlug(vehicleType: VehicleType, categorySlug: string): Promise<ProductDTO[]> {
+/** `categorySlug` is the DB slug, e.g. "disposables-fruit" — see PRODUCT_TYPES in lib/constants.ts. */
+export async function getProductsByCategorySlug(vapeType: VapeType, categorySlug: string): Promise<ProductDTO[]> {
   const products = await prisma.product.findMany({
-    where: { active: true, category: { vehicleType, slug: categorySlug } },
+    where: { active: true, category: { vapeType, slug: categorySlug } },
     orderBy: { createdAt: "desc" },
     include: withCategory,
   });

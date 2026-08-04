@@ -17,11 +17,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "4F Store — Auto Parts & Accessories for Sedans, SUVs & Trucks",
+    default: "4F Store — Disposables, Pod Systems, Mods & E-Liquids",
     template: "%s | 4F Store",
   },
   description:
-    "Shop exterior, interior, electronics, tires & wheels, and accessories for sedans, SUVs, trucks, and vans at 4F Store. Secure checkout, easy returns.",
+    "Shop disposables, pod systems, mods & tanks, and e-liquids in every flavor at 4F Store. Secure checkout, easy returns. Must be 18+ to purchase.",
   openGraph: {
     type: "website",
     siteName: "4F Store",

@@ -6,7 +6,6 @@ import { SOCIAL_LINKS } from "@/lib/constants";
 const HELP_LINKS = [
   { label: "Shipping", href: "/shipping" },
   { label: "Returns", href: "/returns" },
-  { label: "Fitment Guide", href: "/fitment-guide" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

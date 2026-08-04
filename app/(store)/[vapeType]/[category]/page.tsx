@@ -3,13 +3,13 @@ import { notFound } from "next/navigation";
 
 import { getProductsByCategorySlug } from "@/lib/products";
 import { filterProducts, type ProductFilterParams } from "@/lib/filter-products";
-import { NAV_VEHICLE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
+import { NAV_VAPE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
 import { ProductGrid } from "@/components/product-grid";
 import { ProductFilters } from "@/components/product-filters";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
-function findVehicleType(slug: string) {
-  return NAV_VEHICLE_TYPES.find((v) => v.slug === slug.toLowerCase()) ?? null;
+function findVapeType(slug: string) {
+  return NAV_VAPE_TYPES.find((v) => v.slug === slug.toLowerCase()) ?? null;
 }
 
 function findType(slug: string) {
@@ -17,32 +17,32 @@ function findType(slug: string) {
 }
 
 export function generateStaticParams() {
-  return NAV_VEHICLE_TYPES.flatMap((v) => PRODUCT_TYPES.map((t) => ({ vehicleType: v.slug, category: t.type })));
+  return NAV_VAPE_TYPES.flatMap((v) => PRODUCT_TYPES.map((t) => ({ vapeType: v.slug, category: t.type })));
 }
 
 interface CategoryPageProps {
-  params: { vehicleType: string; category: string };
+  params: { vapeType: string; category: string };
   searchParams: ProductFilterParams;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const vehicleType = findVehicleType(params.vehicleType);
+  const vapeType = findVapeType(params.vapeType);
   const type = findType(params.category);
-  if (!vehicleType || !type) return {};
+  if (!vapeType || !type) return {};
 
   return {
-    title: `${vehicleType.label} ${type.label}`,
-    description: `Shop ${type.label.toLowerCase()} for ${vehicleType.label.toLowerCase()}.`,
+    title: `${vapeType.label} — ${type.label}`,
+    description: `Shop ${type.label.toLowerCase()} ${vapeType.label.toLowerCase()}.`,
   };
 }
 
-export default async function VehicleCategoryPage({ params, searchParams }: CategoryPageProps) {
-  const vehicleType = findVehicleType(params.vehicleType);
+export default async function VapeCategoryPage({ params, searchParams }: CategoryPageProps) {
+  const vapeType = findVapeType(params.vapeType);
   const type = findType(params.category);
-  if (!vehicleType || !type) notFound();
+  if (!vapeType || !type) notFound();
 
-  const dbCategorySlug = `${vehicleType.slug}-${type.type}`;
-  const products = await getProductsByCategorySlug(vehicleType.value, dbCategorySlug);
+  const dbCategorySlug = `${vapeType.slug}-${type.type}`;
+  const products = await getProductsByCategorySlug(vapeType.value, dbCategorySlug);
 
   const allSizes = Array.from(new Set(products.flatMap((p) => p.sizes)));
   const allColors = Array.from(new Set(products.flatMap((p) => p.colors)));
@@ -53,12 +53,12 @@ export default async function VehicleCategoryPage({ params, searchParams }: Cate
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },
-          { label: vehicleType.label, href: `/${vehicleType.slug}` },
+          { label: vapeType.label, href: `/${vapeType.slug}` },
           { label: type.label },
         ]}
       />
       <h1 className="mb-8 text-3xl font-bold tracking-tight">
-        {vehicleType.label} {type.label}
+        {vapeType.label} — {type.label}
       </h1>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[240px_1fr]">
         <aside className="hidden md:block">

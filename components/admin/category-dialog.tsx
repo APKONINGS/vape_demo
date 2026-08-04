@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { VEHICLE_TYPES } from "@/lib/constants";
+import { VAPE_TYPES } from "@/lib/constants";
 import { createCategoryAction, updateCategoryAction } from "@/app/admin/actions";
 
 const NO_PARENT = "none";
@@ -33,7 +33,7 @@ export interface CategoryOption {
   id: string;
   name: string;
   slug: string;
-  vehicleType: string;
+  vapeType: string;
   parentId: string | null;
 }
 
@@ -47,7 +47,7 @@ export function CategoryDialog({ category, allCategories }: CategoryDialogProps)
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(category?.name ?? "");
   const [slug, setSlug] = useState(category?.slug ?? "");
-  const [vehicleType, setVehicleType] = useState(category?.vehicleType ?? "ANY");
+  const [vapeType, setVapeType] = useState(category?.vapeType ?? "ANY");
   const [parentId, setParentId] = useState(category?.parentId ?? NO_PARENT);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +62,7 @@ export function CategoryDialog({ category, allCategories }: CategoryDialogProps)
     const input = {
       name,
       slug,
-      vehicleType: vehicleType as "SEDAN" | "SUV" | "TRUCK" | "ANY",
+      vapeType: vapeType as "DISPOSABLE" | "POD_SYSTEM" | "MOD_TANK" | "E_LIQUID" | "ANY",
       parentId: parentId === NO_PARENT ? null : parentId,
     };
 
@@ -96,7 +96,8 @@ export function CategoryDialog({ category, allCategories }: CategoryDialogProps)
         <DialogHeader>
           <DialogTitle>{category ? "Edit Category" : "New Category"}</DialogTitle>
           <DialogDescription>
-            Categories power the Sedans / SUVs / Trucks navigation and product pages.
+            Categories power the Disposables / Pod Systems / Mods &amp; Tanks / E-Liquids navigation and product
+            pages.
           </DialogDescription>
         </DialogHeader>
 
@@ -112,19 +113,19 @@ export function CategoryDialog({ category, allCategories }: CategoryDialogProps)
               id="cat-slug"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
-              placeholder="sedans-exterior"
+              placeholder="disposables-fruit"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="cat-vehicle-type">Vehicle type</Label>
-            <Select value={vehicleType} onValueChange={setVehicleType}>
-              <SelectTrigger id="cat-vehicle-type">
+            <Label htmlFor="cat-vape-type">Vape type</Label>
+            <Select value={vapeType} onValueChange={setVapeType}>
+              <SelectTrigger id="cat-vape-type">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {VEHICLE_TYPES.map((v) => (
+                {VAPE_TYPES.map((v) => (
                   <SelectItem key={v} value={v}>
                     {v}
                   </SelectItem>

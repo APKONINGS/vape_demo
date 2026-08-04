@@ -21,11 +21,11 @@ import { CountBadge } from "@/components/motion/count-badge";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useCartStore } from "@/store/cart-store";
 import { useWishlist } from "@/components/wishlist-context";
-import { NAV_VEHICLE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
+import { NAV_VAPE_TYPES, PRODUCT_TYPES } from "@/lib/constants";
 
 const COLLECTION_LINKS = [
   { label: "New Arrivals", href: "/collections/new-arrivals" },
-  { label: "Winter Driving Essentials", href: "/collections/winter" },
+  { label: "Best Sellers", href: "/collections/best-sellers" },
   { label: "Sale", href: "/collections/sale" },
 ] as const;
 
@@ -55,21 +55,21 @@ export function SiteHeader() {
                 <Input name="q" placeholder="Search the catalog..." className="pl-8" />
               </form>
 
-              {NAV_VEHICLE_TYPES.map((vehicleType) => (
-                <div key={vehicleType.slug} className="mt-6">
+              {NAV_VAPE_TYPES.map((vapeType) => (
+                <div key={vapeType.slug} className="mt-6">
                   <SheetClose asChild>
                     <Link
-                      href={`/${vehicleType.slug}`}
+                      href={`/${vapeType.slug}`}
                       className="block rounded-md px-2 py-1.5 text-base font-semibold hover:bg-accent"
                     >
-                      {vehicleType.label}
+                      {vapeType.label}
                     </Link>
                   </SheetClose>
                   <div className="mt-1 flex flex-col gap-0.5 pl-2">
                     {PRODUCT_TYPES.map((type) => (
                       <SheetClose asChild key={type.type}>
                         <Link
-                          href={`/${vehicleType.slug}/${type.type}`}
+                          href={`/${vapeType.slug}/${type.type}`}
                           className="rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
                         >
                           {type.label}
@@ -101,13 +101,13 @@ export function SiteHeader() {
           </Link>
 
           <nav className="hidden items-center gap-1 text-sm font-medium md:flex">
-            {NAV_VEHICLE_TYPES.map((vehicleType) => (
-              <div key={vehicleType.slug} className="group relative">
+            {NAV_VAPE_TYPES.map((vapeType) => (
+              <div key={vapeType.slug} className="group relative">
                 <Link
-                  href={`/${vehicleType.slug}`}
+                  href={`/${vapeType.slug}`}
                   className="relative flex items-center rounded-md px-3 py-2 transition-colors hover:text-foreground/80"
                 >
-                  {vehicleType.label}
+                  {vapeType.label}
                   <span className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 bg-foreground transition-transform duration-200 group-hover:scale-x-100" />
                 </Link>
                 <div className="invisible absolute left-0 top-full z-50 flex w-[28rem] gap-6 rounded-lg border bg-popover p-4 opacity-0 shadow-md transition-all group-hover:visible group-hover:opacity-100">
@@ -116,15 +116,15 @@ export function SiteHeader() {
                       Shop by Category
                     </p>
                     <Link
-                      href={`/${vehicleType.slug}`}
+                      href={`/${vapeType.slug}`}
                       className="block rounded-md px-3 py-1.5 text-sm font-medium hover:bg-accent"
                     >
-                      All {vehicleType.label}
+                      All {vapeType.label}
                     </Link>
                     {PRODUCT_TYPES.map((type) => (
                       <Link
                         key={type.type}
-                        href={`/${vehicleType.slug}/${type.type}`}
+                        href={`/${vapeType.slug}/${type.type}`}
                         className="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
                       >
                         {type.label}

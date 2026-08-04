@@ -14,8 +14,14 @@ export default function ShippingPage() {
           <h2 className="mb-1 text-base font-semibold text-foreground">Flat-rate shipping</h2>
           <p>
             Every order ships for a flat {formatPrice(SHIPPING_FEE_CENTS)}, shown at checkout before you pay.
-            Most orders arrive within 5–7 business days. Large items like wheel and tire sets may ship in a
-            separate box and take slightly longer.
+            Most orders arrive within 5–7 business days.
+          </p>
+        </section>
+        <section>
+          <h2 className="mb-1 text-base font-semibold text-foreground">Age verification on delivery</h2>
+          <p>
+            All orders require an adult (18+) signature on delivery, and the carrier may ask for photo ID.
+            Orders cannot be left unattended.
           </p>
         </section>
         <section>
@@ -30,17 +36,10 @@ export default function ShippingPage() {
           </p>
         </section>
         <section>
-          <h2 className="mb-1 text-base font-semibold text-foreground">Freight & oversized items</h2>
-          <p>
-            Some wheel/tire sets and large exterior parts ship via freight carrier and may require an adult
-            signature on delivery. We&apos;ll email you if your order needs this.
-          </p>
-        </section>
-        <section>
           <h2 className="mb-1 text-base font-semibold text-foreground">International orders</h2>
           <p>
-            We currently ship within the country of origin only. International shipping is on our roadmap — contact
-            us if you&apos;d like to be notified when it&apos;s available.
+            We currently ship within the country of origin only, in line with local vaping import restrictions.
+            Contact us if you&apos;d like to be notified when international shipping becomes available.
           </p>
         </section>
       </div>

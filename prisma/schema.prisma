@@ -1,4 +1,4 @@
-// 4F Store - Self Hosted Auto Parts & Accessories Ecommerce
+// 4F Store - Self Hosted Vape & E-Liquid Ecommerce
 //
 // Datasource: postgresql — switched from the original SQLite for the Vercel stakeholder
 // demo, since Vercel's serverless functions run on a read-only filesystem and can't
@@ -110,7 +110,7 @@ model Category {
   id          String  @id @default(cuid())
   name        String
   slug        String  @unique
-  vehicleType String  @default("ANY") // "SEDAN" | "SUV" | "TRUCK" | "ANY" — see lib/constants.ts
+  vapeType    String  @default("ANY") // "DISPOSABLE" | "POD_SYSTEM" | "MOD_TANK" | "E_LIQUID" | "ANY" — see lib/constants.ts
   parentId    String?
 
   parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: SetNull)
@@ -120,7 +120,7 @@ model Category {
 
 model Collection {
   id        String  @id @default(cuid())
-  slug      String  @unique // e.g. new-arrivals, sale, winter
+  slug      String  @unique // e.g. new-arrivals, sale, best-sellers
   title     String
   bannerUrl String?
 

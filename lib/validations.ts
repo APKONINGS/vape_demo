@@ -79,7 +79,7 @@ export const categorySchema = z.object({
     .min(1)
     .max(100)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase, hyphen-separated"),
-  vehicleType: z.enum(["SEDAN", "SUV", "TRUCK", "ANY"]),
+  vapeType: z.enum(["DISPOSABLE", "POD_SYSTEM", "MOD_TANK", "E_LIQUID", "ANY"]),
   parentId: z.string().nullable(),
 });
 export type CategoryInput = z.infer<typeof categorySchema>;

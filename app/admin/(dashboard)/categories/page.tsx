@@ -27,7 +27,7 @@ export default async function AdminCategoriesPage() {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Slug</TableHead>
-            <TableHead>Vehicle Type</TableHead>
+            <TableHead>Vape Type</TableHead>
             <TableHead>Parent</TableHead>
             <TableHead>Products</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -39,7 +39,7 @@ export default async function AdminCategoriesPage() {
               <TableCell className="font-medium">{category.name}</TableCell>
               <TableCell className="font-mono text-xs">{category.slug}</TableCell>
               <TableCell>
-                <Badge variant="secondary">{category.vehicleType}</Badge>
+                <Badge variant="secondary">{category.vapeType}</Badge>
               </TableCell>
               <TableCell>{category.parent?.name ?? <span className="text-muted-foreground">—</span>}</TableCell>
               <TableCell>{category._count.products}</TableCell>

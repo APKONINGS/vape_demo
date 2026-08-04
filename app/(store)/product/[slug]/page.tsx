@@ -94,7 +94,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             <div className="space-y-2 border-t pt-6 text-sm text-muted-foreground">
               <p>Flat-rate shipping, calculated at checkout.</p>
-              <p>30-day hassle-free returns on uninstalled parts.</p>
+              <p>30-day hassle-free returns on unopened items.</p>
               <p>{product.stock > 0 ? `${product.stock} in stock` : "Currently out of stock"}</p>
             </div>
           </div>

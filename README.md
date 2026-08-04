@@ -1,8 +1,10 @@
 # 4F Clone — Self-Hosted E-Commerce with Google Login
 
-A production-ready e-commerce starter: winter jacket storefront, full customer accounts
-(email/password + Google OAuth), Stripe Checkout + Billing Portal, and an admin dashboard —
-running entirely on SQLite so it costs **$0/month** in SaaS fees and fits on a $5 VPS.
+A production-ready e-commerce starter: vape &amp; e-liquid storefront with an 18+ age gate, full
+customer accounts (email/password + Google OAuth), Stripe Checkout + Billing Portal, and an
+admin dashboard — running entirely on SQLite by default so it costs **$0/month** in SaaS
+fees and fits on a $5 VPS (a hosted Postgres swap is included for serverless platforms like
+Vercel — see below).
 
 You own 100% of this code. No subscriptions, no vendor lock-in, no license keys.
 
@@ -43,7 +45,7 @@ npm run prisma:migrate -- --name init
 npm run seed
 ```
 
-This creates the database and seeds 8 winter jacket products.
+This creates the database and seeds 40 placeholder vape products across 4 categories.
 
 ## Step 4 — Stripe setup
 
@@ -134,8 +136,8 @@ app/
   sitemap.ts, robots.ts
 auth.ts / auth.config.ts # Auth.js v5 config (Google + Credentials, JWT sessions)
 middleware.ts            # protects /account/* and /admin/*
-prisma/schema.prisma      # SQLite schema
-prisma/seed.ts            # 8 winter jacket products
+prisma/schema.prisma      # SQLite/Postgres schema
+prisma/seed.ts            # 40 placeholder vape products
 prisma/scripts/make-admin.ts
 server.ts                 # Express + Next.js custom server (single Node process)
 lib/                       # prisma client, stripe client, mailer, validations, etc.

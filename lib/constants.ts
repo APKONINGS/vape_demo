@@ -7,25 +7,33 @@ export type Role = (typeof ROLES)[number];
 export const ORDER_STATUSES = ["PENDING", "PAID", "FULFILLED", "CANCELLED", "REFUNDED"] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
-export const VEHICLE_TYPES = ["SEDAN", "SUV", "TRUCK", "ANY"] as const;
-export type VehicleType = (typeof VEHICLE_TYPES)[number];
+export const VAPE_TYPES = ["DISPOSABLE", "POD_SYSTEM", "MOD_TANK", "E_LIQUID", "ANY"] as const;
+export type VapeType = (typeof VAPE_TYPES)[number];
 
-export const NAV_VEHICLE_TYPES = [
-  { slug: "sedans", label: "Sedans", value: "SEDAN" },
-  { slug: "suvs", label: "SUVs & Crossovers", value: "SUV" },
-  { slug: "trucks", label: "Trucks & Vans", value: "TRUCK" },
-] as const satisfies ReadonlyArray<{ slug: string; label: string; value: Exclude<VehicleType, "ANY"> }>;
+export const NAV_VAPE_TYPES = [
+  { slug: "disposables", label: "Disposables", value: "DISPOSABLE" },
+  { slug: "pod-systems", label: "Pod Systems & Kits", value: "POD_SYSTEM" },
+  { slug: "mods-tanks", label: "Mods & Tanks", value: "MOD_TANK" },
+  { slug: "e-liquids", label: "E-Liquids", value: "E_LIQUID" },
+] as const satisfies ReadonlyArray<{ slug: string; label: string; value: Exclude<VapeType, "ANY"> }>;
 
-// Category slugs in the DB follow `${vehicleTypeSlug}-${type}` (see prisma/seed.ts), so
-// the /[vehicleType]/[category] route and the header mega menu both derive links from
-// this list.
+// Category slugs in the DB follow `${vapeTypeSlug}-${type}` (see prisma/seed.ts), so
+// the /[vapeType]/[category] route and the header mega menu both derive links from
+// this list. Flavor profile applies across every vape type (disposables, pod-kit juice,
+// mod/tank juice, and standalone e-liquid bottles all come in these profiles); the
+// "accessories" bucket covers the non-flavor items each vape type also needs (coils,
+// batteries, chargers, cases, nic shots, etc.).
 export const PRODUCT_TYPES = [
-  { type: "exterior", label: "Exterior" },
-  { type: "interior", label: "Interior" },
-  { type: "electronics", label: "Electronics" },
-  { type: "tires-wheels", label: "Tires & Wheels" },
+  { type: "fruit", label: "Fruit" },
+  { type: "menthol-ice", label: "Menthol & Ice" },
+  { type: "dessert-sweet", label: "Dessert & Sweet" },
+  { type: "tobacco-classic", label: "Tobacco & Classic" },
   { type: "accessories", label: "Accessories" },
 ] as const;
+
+// Minimum age required to confirm entry via the age-verification gate — vaping/nicotine
+// products are age-restricted (18+). See components/age-gate.tsx.
+export const AGE_GATE_MINIMUM_AGE = 18;
 
 // Placeholder hrefs — swap in the real profile URLs once these accounts exist.
 // icon names map to lucide-react components (see components/site-footer.tsx).
