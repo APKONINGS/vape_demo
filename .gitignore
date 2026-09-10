@@ -13,3 +13,7 @@ prisma/dev.db-journal
 npm-debug.log*
 tsconfig.tsbuildinfo
 .claude/settings.local.json
+# Client-supplied raw product photography — not licensed for redistribution in this
+# public repo, and not referenced by the app (real catalog images go through the admin
+# upload flow / Vercel Blob instead).
+vapes/

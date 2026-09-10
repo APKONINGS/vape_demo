@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ImageUpload } from "@/components/admin/image-upload";
 import type { ProductInput } from "@/lib/validations";
 import type { ProductDTO } from "@/lib/products";
 
@@ -42,7 +43,7 @@ export function ProductForm({ product, categories, onSubmit }: ProductFormProps)
   const [salePriceDollars, setSalePriceDollars] = useState(
     product?.salePrice ? (product.salePrice / 100).toFixed(2) : ""
   );
-  const [imagesText, setImagesText] = useState(product?.images.join("\n") ?? "");
+  const [images, setImages] = useState<string[]>(product?.images ?? []);
   const [sizesText, setSizesText] = useState(product?.sizes.join(", ") ?? "");
   const [colorsText, setColorsText] = useState(product?.colors.join(", ") ?? "");
   const [stock, setStock] = useState(product?.stock.toString() ?? "0");
@@ -54,6 +55,12 @@ export function ProductForm({ product, categories, onSubmit }: ProductFormProps)
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
+
+    if (images.length === 0) {
+      setError("Add at least one product image.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const input: ProductInput = {
@@ -62,10 +69,7 @@ export function ProductForm({ product, categories, onSubmit }: ProductFormProps)
       description,
       price: Math.round(Number(priceDollars) * 100),
       salePrice: salePriceDollars.trim() ? Math.round(Number(salePriceDollars) * 100) : null,
-      images: imagesText
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      images,
       sizes: sizesText
         .split(",")
         .map((s) => s.trim())
@@ -171,17 +175,7 @@ export function ProductForm({ product, categories, onSubmit }: ProductFormProps)
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="images">Image URLs (one per line)</Label>
-            <Textarea
-              id="images"
-              rows={4}
-              value={imagesText}
-              onChange={(e) => setImagesText(e.target.value)}
-              placeholder={"https://.../image1.jpg\nhttps://.../image2.jpg"}
-              required
-            />
-          </div>
+          <ImageUpload images={images} onChange={setImages} />
 
           <div className="space-y-2">
             <Label htmlFor="sizes">Sizes (comma-separated)</Label>

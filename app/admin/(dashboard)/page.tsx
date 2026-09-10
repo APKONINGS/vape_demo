@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
   const stats = [
     { label: "Products", value: productCount, href: "/admin/products" },
     { label: "Orders", value: orderCount, href: "/admin/orders" },
-    { label: "Revenue", value: formatPrice(revenue._sum.total ?? 0), href: "/admin/orders" },
+    { label: "Revenue", value: formatPrice(revenue._sum.total ?? 0), href: "/admin/analytics" },
     { label: "Categories", value: categoryCount, href: "/admin/categories" },
     { label: "Collections", value: collectionCount, href: "/admin/collections" },
   ];
